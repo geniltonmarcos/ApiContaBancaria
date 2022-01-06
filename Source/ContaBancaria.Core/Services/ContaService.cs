@@ -3,6 +3,7 @@ using ContaBancaria.Core.Dtos;
 using ContaBancaria.Core.Entities;
 using ContaBancaria.Core.Enums;
 using ContaBancaria.Core.Helpers;
+using ContaBancaria.Core.Interfaces.Factories;
 using ContaBancaria.Core.Interfaces.Repositories;
 using ContaBancaria.Core.Interfaces.Services;
 using System;
@@ -13,9 +14,13 @@ namespace ContaBancaria.Core.Services
     public class ContaService : IContaService
     {
         private readonly IContaRepository contaRepository;
-        public ContaService(IContaRepository contaRepository)
+        private readonly IContaFactory contaFactory;
+
+        public ContaService(IContaRepository contaRepository,
+            IContaFactory contaFactory)
         {
             this.contaRepository = contaRepository;
+            this.contaFactory = contaFactory;
         }
 
         public FluentResult Depositar(ContaDto contaDto)
@@ -127,7 +132,7 @@ namespace ContaBancaria.Core.Services
             var fl = new FluentResult();
             if (!string.IsNullOrWhiteSpace(abreConta.Nome))
             {
-                var conta = new Conta(abreConta.Nome, abreConta.SaldoInicial);
+                var conta = contaFactory.CreateContaCorrente(abreConta.Nome, abreConta.SaldoInicial);
 
                 if(abreConta.SaldoInicial > 0)
                 {

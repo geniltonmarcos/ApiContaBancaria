@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ContaBancaria.Core.Entities
 {
-    public class Conta
+    public abstract class Conta
     {
         public long Id { get; set; }
         public string Nome { get; set; }

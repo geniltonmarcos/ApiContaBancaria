@@ -1,4 +1,8 @@
-﻿using ContaBancaria.Core.Interfaces.Repositories;
+﻿using ContaBancaria.Core.Adapters;
+using ContaBancaria.Core.Factories;
+using ContaBancaria.Core.Interfaces.Adapters;
+using ContaBancaria.Core.Interfaces.Factories;
+using ContaBancaria.Core.Interfaces.Repositories;
 using ContaBancaria.Core.Interfaces.Services;
 using ContaBancaria.Core.Services;
 using ContaBancaria.Infra.Repositories;
@@ -7,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PacoteBancaria.Core.Services;
 
 namespace ContaBancaria
 {
@@ -36,7 +41,11 @@ namespace ContaBancaria
             services.AddScoped<IContaRepository, ContaRepository>();
 
             services.AddScoped<IExtratoService, ExtratoService>();
+            services.AddScoped<IPacoteService, PacoteService>();
             services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
+            
+            services.AddScoped<IContaFactory, ContaFactory>();
+            services.AddScoped<IPacoteAdapter, PacoteAdapter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
